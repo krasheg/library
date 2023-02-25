@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+    <title>List of Authors</title>
+    {% if message %}
+        <ul class="messages">
+            <p style="color: red;">{{ message }}</p>
+        </ul>
+    {% endif %}
+    <div class="bg-light p-5 rounded-lg m-3">
+
+        {% if book_list %}
+            {% if user.is_authenticated %}
+                <form action="" method="post">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" aria-label="Text input with dropdown button" name="search">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">Search by
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end bg-light">
+                        <li><button type="submit" class="btn btn-light" name="by_book_id">By Book ID</button></li>
+                    <li><button type="submit" class="btn btn-light" name="by_book_title">Book title</button></li>
+                    <li><button type="submit" class="btn btn-light" name="by_book_description">Book description</button></li>
+                        {% if user.role == 1 %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><button type="submit" class="btn btn-light" name="by_user_id">By author ID</button></li>
+                        {% endif %}
+                    </ul>
+
+                </div>
+                </form>
+                <br>
+                <br>
+                {% for book in book_list %}
+                    <div class="d-flex justify-content-center">
+                        <div class="col-md-6">
+                            <div class="h-100 p-5 bg-secondary text-white border rounded-3">
+                                <h2><b>Book name:</b> {{ book.name }}</h2>
+                                <p><b>Description:</b> {{ book.description }}</p>
+                                <h3>Authors:</h3>
+                                {% for author in book.authors.all %}
+                                    <p>{{ author.name }} {{ author.patronymic }} {{ author.surname }}</p>
+                                {% endfor %}
+                                {% if request.user.role %}
+                                <a href="{% url 'delete_book' id=book.id %}">
+                                    <button type="button" class="btn btn-danger float-end">Delete</button>
+                                </a>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
+                <br>
+
+            {% endif %}
+
+        {% else %}
+            <h1>Book`s list is empty</h1>
+        {% endif %}
+    {% if request.user.role %}
+    </div>
+    <div class="container ml-auto mt-2 mt-lg-0">
+        <a href="{% url 'create_book' %}"><button type="button" class="btn btn-secondary">Add new book</button></a>
+    </div>
+    {% endif %}
+{% endblock %}

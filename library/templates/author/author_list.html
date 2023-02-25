@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+    <title>List of Authors</title>
+    {% if msg %}
+        <ul class="messages">
+            <h3 style="color: red;">{{ msg }}</h3>
+        </ul>
+    {% endif %}
+    <div class="bg-light p-5 rounded-lg m-3">
+        {% if author_list %}
+            {% if user.is_authenticated %}
+                {% for author in author_list %}
+                    <div class="d-flex justify-content-center">
+                        <div class="col-md-6">
+                            <div class="h-100 p-5 bg-secondary text-white border rounded-3">
+                                <h2>{{ author.name }} {{ author.patronymic }} {{ author.surname }}</h2>
+                                <h3>Books: {{ author.books.count }}</h3>
+                                {% if user.role%}
+                                <a href=" {% url 'delete_author' id=author.id %}">
+                                    <button type="button" class="btn btn-danger float-end">Delete</button></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
+                <br>
+
+            {% endif %}
+
+        {% else %}
+            <h1>No authors yet</h1>
+        {% endif %}
+
+        </div>
+    <div class="container ml-auto mt-2 mt-lg-0">
+        {% if user.role%}
+        <a href="{% url 'create_author' %}"><button type="button" class="btn btn-secondary">Add new author</button></a>
+        {% endif %}
+    </div>
+
+{% endblock %}

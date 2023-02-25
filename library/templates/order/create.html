@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<title>Create Order</title>
+
+
+<div class='bg-dark text-white p-5 rounded-lg m-3'>
+
+<form class="needs-validation" action="{% url 'create'%}" method="POST">
+    {%csrf_token%}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %} style="color: red;">{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+    </ul>
+    <div class="form-group mx-sm-3 mb-2">
+
+            <div class="col-md-5">
+              <label class="form-label">Users</label>
+              <select class="form-select" name="user">
+                  {% for user in users %}
+                <option name="user" >User email: {{user.email}} User id: {{user.id}}</option>
+                  {% endfor %}
+
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Book</label>
+              <select class="form-select" name="book">
+                {% for book in books %}
+                <option name="book">Book name: {{book.name}} Book count:{{book.count}} Book id: {{book.id}}</option>
+                  {% endfor %}
+              </select>
+            </div>
+                <label for="start">Planed_end</label>
+
+                <input type="date" id="start" name="date"
+                value="2023-01-01" min="2023-01-01" max="2024-12-31">
+
+           <input type="submit" class="btn btn-secondary" value="Create">
+    </div>
+        </form>
+
+    </div>
+
+{%endblock%}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<title>Create Author</title>
+
+<div class='bg-dark text-white p-5 rounded-lg m-3'>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %} style="color: red;">{{ message }}</p>
+        {% endfor %}
+    </ul>
+        {% endif %}
+
+    <form action="{% url 'create_author'%}" method="POST">
+        {%csrf_token%}
+        <div class="row g-3">
+            <label for="author_name">Name:</label>
+            <input type="text" name="author_name" placeholder="Enter Name">
+            <label for="lastname">Surname:</label>
+            <input type="text" name="last_name" placeholder="Enter Last name">
+            <label for="middle_name">Patronymic:</label>
+            <input type="text" name="middle_name" placeholder="Enter Middle name">
+            <div class="col-md-5">
+              <label for="books" class="form-label">Books</label>
+              <select name="books" class="form-select" multiple>
+                  {% for book in books %}
+                <option value="{{ book.id }}">book id: {{ book.id }} name: {{ book.name }}</option>
+                  {% endfor %}
+              </select>
+            </div>
+
+
+            <input type="submit" class="btn btn-secondary" value="Register">
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}
+
+

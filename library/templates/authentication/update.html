@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<title>Update</title>
+
+<div class='bg-dark text-white p-5 rounded-lg m-3'>
+    {% if message %}
+        <ul class="messages">
+            <p style="color: red;">{{ message }}</p>
+        </ul>
+    {% endif %}
+
+    <form action="{% url 'save' id=user.id%}" method="POST">
+        {%csrf_token%}
+        <div class="row g-3">
+            <label for="username">Name:</label>
+            <input type="text" name="user_name" value="{{user.first_name}}">
+            <label for="lastname">Last name:</label>
+            <input type="text" name="last_name" value="{{user.last_name}}">
+            <label for="middelname">Middle name:</label>
+            <input type="text" name="middle_name" value="{{user.middle_name}}">
+            <label for="password" >Password:</label>
+            <input type="text" name="password" value="{{user.password}}">
+            {% if request.user.role %}
+            <div class="col-md-5">
+                <label for="role" class="form-label">Role</label>
+                <select name="role" class="form-select" required="">
+                    <option value="0">User</option>
+                    <option value="1">Librarian</option>
+              </select>
+              <div class="invalid-feedback">
+                Please select a valid role.
+              </div>
+            </div>
+            <div class="col-md-5">
+                <label for="role" class="form-label">Role</label>
+                <select name="is_active" class="form-select" required="">
+                    <option value="1">Activate</option>
+                    <option value="0">Deactivate</option>
+              </select>
+              <div class="invalid-feedback">
+                Please select a valid role.
+              </div>
+            </div>
+            {% endif %}
+
+            <input type="submit" class="btn btn-secondary" value="Save">
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}

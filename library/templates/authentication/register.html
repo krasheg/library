@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<title>Register</title>
+
+<div class='bg-dark text-white p-5 rounded-lg m-3'>
+    {% if message %}
+        <ul class="messages">
+            <p style="color: red;">{{ message }}</p>
+        </ul>
+    {% endif %}
+
+    <form action="{% url 'register'%}" method="POST">
+        {%csrf_token%}
+        <div class="row g-3">
+            <label for="username">Name:</label>
+            <input type="text" name="user_name" placeholder="Enter Name">
+            <label for="lastname">Last name:</label>
+            <input type="text" name="last_name" placeholder="Enter Last name">
+            <label for="middelname">Middle name:</label>
+            <input type="text" name="middle_name" placeholder="Enter Middle name">
+            <label for="email">Email:</label>
+            <input type="email" name="email" placeholder="Enter email">
+            <label for="password">Password:</label>
+            <input type="password"  name="password">
+            <div class="col-md-5">
+                <label for="role" class="form-label">Role</label>
+                <select name="role" class="form-select" required="">
+                    <option value="0">User</option>
+                    <option value="1">Librarian</option>
+
+              </select>
+              <div class="invalid-feedback">
+                Please select a valid role.
+              </div>
+            </div>
+
+
+            <input type="submit" class="btn btn-secondary" value="Register">
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}
